@@ -8,6 +8,7 @@ public class TesaractControllObjects : MonoBehaviour
     public GameObject[] objects;
     [Range(0.0f, 1.0f)]
     public float objectsScale = 1;
+    public float objectSpeed=0.1f;
     public bool objectsActive=true;
     void Start()
     {
@@ -30,6 +31,31 @@ public class TesaractControllObjects : MonoBehaviour
             {
                 obj.SetActive( objectsActive);
             }
+        }
+        ControllCheck();
+    }
+    public void ChangeObjectsSize(float value)
+    {
+        objectsScale = Mathf.Clamp(objectsScale + value, 0.0f, 1.0f);
+    }
+    public void ChangeActiveObject()
+    {
+        objectsActive = !objectsActive;
+    }
+    public void ControllCheck()
+    {
+        if (Input.GetKey(KeyCode.Alpha5))
+        {
+            ChangeObjectsSize(-objectSpeed);
+        }
+        if (Input.GetKey(KeyCode.Alpha6))
+        {
+            ChangeObjectsSize(objectSpeed);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            ChangeActiveObject();
         }
     }
 }
