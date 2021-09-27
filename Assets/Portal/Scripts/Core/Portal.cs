@@ -36,10 +36,12 @@ public class Portal : MonoBehaviour {
         screenMeshFilter = screen.GetComponent<MeshFilter>();
         screen.material.SetInt("displayMask", 1);
         linkPortalName = linkedPortal.portalName;
+        
     }
 
     void LateUpdate () {
         HandleTravellers ();
+
     }
 
     void HandleTravellers () {
@@ -81,13 +83,14 @@ public class Portal : MonoBehaviour {
     // Manually render the camera attached to this portal
     // Called after PrePortalRender, and before PostPortalRender
     public void Render () {
-
+        Debug.Log(portalCam.name + transform.parent.parent.name + " &02&" + playerCam.name );
         // Skip rendering the view from this portal if player is not looking at the linked portal
-        if (!CameraUtility.VisibleFromCamera (linkedPortal.screen, playerCam)) {
+        if (!CameraUtility.VisibleFromCamera (linkedPortal.screen, linkedPortal.playerCam)) {
             return;
         }
+        Debug.Log(portalCam.name + transform.parent.parent.name + " &01&" + playerCam.name );
 
-        CreateViewTexture ();
+        CreateViewTexture();
 
         var localToWorldMatrix = playerCam.transform.localToWorldMatrix;
         var renderPositions = new Vector3[recursionLimit];
@@ -106,7 +109,7 @@ public class Portal : MonoBehaviour {
             int renderOrderIndex = recursionLimit - i - 1;
             renderPositions[renderOrderIndex] = localToWorldMatrix.GetColumn (3);
             renderRotations[renderOrderIndex] = localToWorldMatrix.rotation;
-
+            Debug.Log(portalCam.name + transform.parent.parent.name + " &&"+ playerCam.name );
             portalCam.transform.SetPositionAndRotation (renderPositions[renderOrderIndex], renderRotations[renderOrderIndex]);
             startIndex = renderOrderIndex;
         }
@@ -192,10 +195,12 @@ public class Portal : MonoBehaviour {
         ProtectScreenFromClipping (playerCam.transform.position);
     }
     void CreateViewTexture () {
+        Debug.Log(gameObject.name + transform.parent.parent.name + "001"+ viewTexture);
         if (viewTexture == null || viewTexture.width != Screen.width || viewTexture.height != Screen.height) {
             if (viewTexture != null) {
                 viewTexture.Release ();
             }
+            
             viewTexture = new RenderTexture (Screen.width, Screen.height, 0);
             // Render the view from the portal camera to the view texture
             portalCam.targetTexture = viewTexture;

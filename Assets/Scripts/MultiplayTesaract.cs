@@ -38,12 +38,18 @@ public class MultiplayTesaract : MonoBehaviour
                 foreach (var subPortal in subPortals)
                 {
                     subPortal.playerCam = portal.portalCam;
+                    portal.playerCam.GetComponent<MainCamera>().AddPortal(subPortal);
+                    //subPortal.playerCam.gameObject.AddComponent<MainCamera>();
+                    
                     if (subPortal.portalName == portal.linkPortalName)
                     {
+                        
                         portal.linkedPortal = subPortal;
                         subPortal.linkedPortal = portal;
                         subPortal.StartPortalRender();
                         portal.StartPortalRender();
+                       
+                        break;
                     }
                 }
                 // cam.GetComponent<Camera>().cullingMask = 1 << LayersCounter.GetNewLayer();
