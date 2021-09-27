@@ -37,7 +37,7 @@ public class MultiplayTesaract : MonoBehaviour
                 var subPortals = newForm.GetComponentsInChildren<Portal>();
                 foreach (var subPortal in subPortals)
                 {
-                    subPortal.playerCam = portal.portalCam;
+                    if (depth!=0) subPortal.playerCam = portal.playerCam;
                     portal.playerCam.GetComponent<MainCamera>().AddPortal(subPortal);
                     //subPortal.playerCam.gameObject.AddComponent<MainCamera>();
                     
