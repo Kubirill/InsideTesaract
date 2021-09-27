@@ -5,6 +5,8 @@ using UnityEngine;
 public class Portal : MonoBehaviour {
     [Header ("Main Settings")]
     public Portal linkedPortal;
+    public string portalName;
+    public string linkPortalName;
     public MeshRenderer screen;
     public int recursionLimit = 5;
 
@@ -14,19 +16,26 @@ public class Portal : MonoBehaviour {
 
     // Private variables
     RenderTexture viewTexture;
-    Camera portalCam;
-    Camera playerCam;
+    public Camera portalCam;
+    public Camera playerCam;
     Material firstRecursionMat;
     List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;
 
     void Awake () {
         playerCam = Camera.main;
+        trackedTravellers = new List<PortalTraveller>();
+        StartPortalRender();
+    }
+
+    public void StartPortalRender()
+    {
         portalCam = GetComponentInChildren<Camera> ();
         portalCam.enabled = false;
-        trackedTravellers = new List<PortalTraveller> ();
-        screenMeshFilter = screen.GetComponent<MeshFilter> ();
-        screen.material.SetInt ("displayMask", 1);
+        
+        screenMeshFilter = screen.GetComponent<MeshFilter>();
+        screen.material.SetInt("displayMask", 1);
+        linkPortalName = linkedPortal.portalName;
     }
 
     void LateUpdate () {
