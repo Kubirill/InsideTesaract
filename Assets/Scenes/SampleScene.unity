@@ -1158,6 +1158,11 @@ PrefabInstance:
       propertyPath: recursionLimit
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3743597651704331078, guid: ce71ddc64223549ed8fc19f77f5948b2,
+        type: 3}
+      propertyPath: frstPair
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4687913276525833559, guid: ce71ddc64223549ed8fc19f77f5948b2,
         type: 3}
       propertyPath: m_Layer
@@ -1334,6 +1339,11 @@ PrefabInstance:
         type: 3}
       propertyPath: recursionLimit
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743597651704331078, guid: ce71ddc64223549ed8fc19f77f5948b2,
+        type: 3}
+      propertyPath: frstPair
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4687913276525833559, guid: ce71ddc64223549ed8fc19f77f5948b2,
         type: 3}
@@ -2549,8 +2559,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   depth: 1
+  mainCam: {fileID: 963194231}
   portalsClone: []
-  step: 300
+  step: 500
 --- !u!114 &1177742893 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3743597651704331078, guid: ce71ddc64223549ed8fc19f77f5948b2,
@@ -2798,6 +2809,11 @@ PrefabInstance:
         type: 3}
       propertyPath: recursionLimit
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743597651704331078, guid: ce71ddc64223549ed8fc19f77f5948b2,
+        type: 3}
+      propertyPath: frstPair
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4687913276525833559, guid: ce71ddc64223549ed8fc19f77f5948b2,
         type: 3}

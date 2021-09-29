@@ -5,6 +5,7 @@ using UnityEngine;
 public static class LayersCounter
 {
     static int nowLayer = 1;
+    public static int depth = 2;
 
     public static int GetNewLayer()
     {

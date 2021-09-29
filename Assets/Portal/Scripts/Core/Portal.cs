@@ -21,9 +21,11 @@ public class Portal : MonoBehaviour {
     Material firstRecursionMat;
     List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;
-
+    [HideInInspector]
+    public bool main;
+    public bool frstPair;
     void Awake () {
-        playerCam = Camera.main;
+        if (playerCam==null) playerCam = Camera.main;
         trackedTravellers = new List<PortalTraveller>();
         StartPortalRender();
     }
@@ -83,12 +85,10 @@ public class Portal : MonoBehaviour {
     // Manually render the camera attached to this portal
     // Called after PrePortalRender, and before PostPortalRender
     public void Render () {
-        Debug.Log(portalCam.name + transform.parent.parent.name + " &02&" + playerCam.name );
         // Skip rendering the view from this portal if player is not looking at the linked portal
         if (!CameraUtility.VisibleFromCamera (linkedPortal.screen, linkedPortal.playerCam)) {
             return;
         }
-        Debug.Log(portalCam.name + transform.parent.parent.name + " &01&" + playerCam.name );
 
         CreateViewTexture();
 
@@ -109,7 +109,6 @@ public class Portal : MonoBehaviour {
             int renderOrderIndex = recursionLimit - i - 1;
             renderPositions[renderOrderIndex] = localToWorldMatrix.GetColumn (3);
             renderRotations[renderOrderIndex] = localToWorldMatrix.rotation;
-            Debug.Log(portalCam.name + transform.parent.parent.name + " &&"+ playerCam.name );
             portalCam.transform.SetPositionAndRotation (renderPositions[renderOrderIndex], renderRotations[renderOrderIndex]);
             startIndex = renderOrderIndex;
         }
@@ -195,7 +194,6 @@ public class Portal : MonoBehaviour {
         ProtectScreenFromClipping (playerCam.transform.position);
     }
     void CreateViewTexture () {
-        Debug.Log(gameObject.name + transform.parent.parent.name + "001"+ viewTexture);
         if (viewTexture == null || viewTexture.width != Screen.width || viewTexture.height != Screen.height) {
             if (viewTexture != null) {
                 viewTexture.Release ();
