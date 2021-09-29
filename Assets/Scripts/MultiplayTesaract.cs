@@ -79,7 +79,7 @@ public class MultiplayTesaract : MonoBehaviour
                         Debug.Log("Add in main Camer" + subPortal + subPortal.transform.parent + " " + subPortal.playerCam.transform.parent);
                         subPortal.playerCam.GetComponent<MainCamera>().AddPortal(subPortal);
                     }
-                    /*
+                    
                     if (subPortal.portalName != portal.linkPortalName)
                     {
                         Debug.Log(subPortal.playerCam +" "+ portal.linkedPortal.portalCam);
@@ -87,7 +87,7 @@ public class MultiplayTesaract : MonoBehaviour
                         Debug.Log(subPortal.playerCam);
                         foreach (var subPortal2 in subPortals)
                         {
-                            if (subPortal.portalName == subPortal2.linkPortalName)
+                            if ((subPortal.portalName == subPortal2.linkPortalName)&& (subPortal2.portalName != portal.linkPortalName))
                             {
 
                                 subPortal2.linkedPortal = subPortal;
@@ -99,7 +99,7 @@ public class MultiplayTesaract : MonoBehaviour
                             }
                         }
                     }
-                    */
+                    
                 }
 
                 // cam.GetComponent<Camera>().cullingMask = 1 << LayersCounter.GetNewLayer();
