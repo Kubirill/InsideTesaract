@@ -21,7 +21,7 @@ public class Portal : MonoBehaviour {
     Material firstRecursionMat;
     List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;
-    [HideInInspector]
+   // [HideInInspector]
     public bool main;
     public bool frstPair;
     void Awake () {

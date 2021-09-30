@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class MainCamera : MonoBehaviour {
 
     
-    List<Portal> portals= new List<Portal>();
+    public List<Portal> portals= new List<Portal>();
     bool active = false;
 
     void Start () {
@@ -13,8 +13,8 @@ public class MainCamera : MonoBehaviour {
 
             foreach (var tr in trash)
             {
-                Debug.Log("uups");
-                portals.Add(tr);
+
+                //portals.Add(tr);
             }
         }
         

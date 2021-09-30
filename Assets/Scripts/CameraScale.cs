@@ -15,5 +15,11 @@ public class CameraScale : MonoBehaviour
     void Update()
     {
         transform.localScale = Vector3.one / insideObj.localScale.x;
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            LayersCounter.GetNewStep();
+            Debug.Log(LayersCounter.GetStep());
+        }
     }
+
 }

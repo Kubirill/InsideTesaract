@@ -9,7 +9,7 @@ public class MultiplayTesaract : MonoBehaviour
     public List<Portal> portalsClone;
     //public List<Portal> portalsCloneSecond;
     Camera mainPortalCam;
-    public float step=1000;
+    public int step=1000;
     // Start is called before the first frame update
     public void Awake()
     {
@@ -17,20 +17,21 @@ public class MultiplayTesaract : MonoBehaviour
     }
     void Start()
     {
-        CloneSelf();
+        
         //LayersCounter.depth = depth;
     }
-
+    
     public void CloneSelf()
     {
-        if (depth > 0)
+        if ((depth > 0)&&(depth==LayersCounter.GetStep()))
         {
+            portalsClone.Clear();
             var trashes = GetComponentsInChildren<Portal>();
             foreach (var trash in trashes)
             {
                 if (!trash.main)
                 {
-                    portalsClone.Add(trash);
+                    portalsClone.Add(trash);//добавили все порталы объекта, которые не являются связующими
                     
                 }
                 else
@@ -41,22 +42,26 @@ public class MultiplayTesaract : MonoBehaviour
             }
             foreach (var portal in portalsClone)
             {
-                var newForm = Instantiate(gameObject, transform.position + Vector3.right * depth * step * LayersCounter.GetNewLayer(), Quaternion.identity);
-                newForm.GetComponent<MultiplayTesaract>().depth = depth - 1;
-                newForm.name = portal.name + "_"+ newForm.name;
-                newForm.GetComponent<MultiplayTesaract>().CloneSelf();
-                var subPortals = newForm.GetComponentsInChildren<Portal>();
+                var newForm = Instantiate(gameObject, transform.position + step * LayersCounter.GetNewLayer(), Quaternion.identity);// для каждого портали создали новый оюъект
+                newForm.GetComponent<MultiplayTesaract>().depth = depth - 1;//уменьшили шаг глубины
+                newForm.GetComponent<MultiplayTesaract>().portalsClone.Clear();//очистили массив
+                newForm.name = portal.name + "_"+ newForm.name;//изменили имя
+                //newForm.GetComponent<MultiplayTesaract>().CloneSelf();
+                var subPortals = newForm.GetComponentsInChildren<Portal>();// получаю все порталы нового объекта
 
                 
                 
 
-                foreach (var subPortal in subPortals)
+                foreach (var subPortal in subPortals)//перебор новых порталов
                 {
                     
-                    if (subPortal.portalName == portal.linkPortalName)
+                    if (subPortal.portalName == portal.linkPortalName)// для нового связуюшего портала
                     {
-
-                        portal.linkedPortal = subPortal;
+                        foreach  (var mesh in subPortal.GetComponentsInChildren<MeshRenderer>())
+                        {
+                            mesh.enabled = false;
+                        }
+                        portal.linkedPortal = subPortal;// установка связи между ними 
                         subPortal.linkedPortal = portal;
                         subPortal.StartPortalRender();
                         portal.StartPortalRender();
@@ -65,10 +70,11 @@ public class MultiplayTesaract : MonoBehaviour
                     }
                     
                 }
-                foreach (var subPortal in subPortals)
+                foreach (var subPortal in subPortals)//новый перебор
                 {
 
-                    if (subPortal.portalName != portal.linkPortalName) subPortal.playerCam = portal.linkedPortal.portalCam;
+                    if (subPortal.portalName != portal.linkPortalName) subPortal.playerCam = portal.linkedPortal.portalCam;// для остальных порталов установить зависимость от новой камеры
+                    else subPortal.playerCam = subPortal.linkedPortal.playerCam;
                     if (subPortal.playerCam.GetComponent<MainCamera>() == null)
                     {
                         subPortal.playerCam.gameObject.AddComponent<MainCamera>();
@@ -76,25 +82,22 @@ public class MultiplayTesaract : MonoBehaviour
 
                     if (!subPortal.playerCam.GetComponent<MainCamera>().ContainPortal(subPortal))
                     {
-                        Debug.Log("Add in main Camer" + subPortal + subPortal.transform.parent + " " + subPortal.playerCam.transform.parent);
+
                         subPortal.playerCam.GetComponent<MainCamera>().AddPortal(subPortal);
                     }
                     
-                    if (subPortal.portalName != portal.linkPortalName)
+                    if ((subPortal.portalName != portal.linkPortalName)&& (subPortal.portalName != portal.portalName))
                     {
-                        Debug.Log(subPortal.playerCam +" "+ portal.linkedPortal.portalCam);
-                        
-                        Debug.Log(subPortal.playerCam);
+                       
                         foreach (var subPortal2 in subPortals)
                         {
-                            if ((subPortal.portalName == subPortal2.linkPortalName)&& (subPortal2.portalName != portal.linkPortalName))
+                            if ((subPortal.portalName == subPortal2.linkPortalName))
                             {
 
                                 subPortal2.linkedPortal = subPortal;
                                 subPortal.linkedPortal = subPortal2;
                                 subPortal.StartPortalRender();
                                 subPortal2.StartPortalRender();
-                                subPortal.main = true;
                                 continue;
                             }
                         }
@@ -111,6 +114,9 @@ public class MultiplayTesaract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            CloneSelf();
+        }
     }
 }
