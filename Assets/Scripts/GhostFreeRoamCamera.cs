@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Camera))]
+
 public class GhostFreeRoamCamera : MonoBehaviour
 {
     public float initialSpeed = 10f;
